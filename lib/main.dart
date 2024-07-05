@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,6 +33,14 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Widget> scoreKeeper = [];
+
+  List<String> questions = [
+    'you can lead a cow downstairs but not upstairs.',
+    'Approximately one quarter of human bone are in the feet.',
+    'A Slug\'s blood is green',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -44,7 +54,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  'Pertanyaan Muncul Disini',
+                  'masih bingung call list',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 25.0),
                 ),
@@ -55,7 +65,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
-                onPressed: null,
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.green,
                   shape: const RoundedRectangleBorder(
@@ -63,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 child: const Text(
-                  'True',
+                  'Benar',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ),
@@ -73,7 +83,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
-                onPressed: null,
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red,
                   shape: const RoundedRectangleBorder(
@@ -81,12 +91,13 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 child: const Text(
-                  'False',
+                  'Salah',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ),
             ),
-          )
+          ),
+          Row(children: scoreKeeper)
         ],
       ),
     );
