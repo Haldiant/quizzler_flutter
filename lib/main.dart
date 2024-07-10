@@ -39,6 +39,10 @@ class _QuizPageState extends State<QuizPage> {
     'A Slug\'s blood is green',
   ];
 
+  List<bool> answers = [false, true, true];
+
+  int questionsNumber = 0;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -46,15 +50,15 @@ class _QuizPageState extends State<QuizPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Expanded(
+          Expanded(
             flex: 5,
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  'masih bingung call list',
+                  questions[questionsNumber],
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 25.0),
+                  style: const TextStyle(color: Colors.white, fontSize: 25.0),
                 ),
               ),
             ),
@@ -63,7 +67,18 @@ class _QuizPageState extends State<QuizPage> {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  bool correctAnswers = answers[questionsNumber];
+
+                  if (correctAnswers == true) {
+                    print('jawaban benar');
+                  } else {
+                    print('jawaban salah');
+                  }
+                  setState(() {
+                    questionsNumber++;
+                  });
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.green,
                   shape: const RoundedRectangleBorder(
@@ -81,7 +96,19 @@ class _QuizPageState extends State<QuizPage> {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  bool correctAnswers = answers[questionsNumber];
+
+                  if (correctAnswers == false) {
+                    print('jawaban benar');
+                  } else {
+                    print('jawaban salah');
+                  }
+
+                  setState(() {
+                    questionsNumber++;
+                  });
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red,
                   shape: const RoundedRectangleBorder(
