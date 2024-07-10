@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler_flutter/questions.dart';
 
 void main() {
   runApp(const QuizzlerApp());
@@ -33,13 +34,12 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
 
-  List<String> questions = [
-    'you can lead a cow downstairs but not upstairs.',
-    'Approximately one quarter of human bone are in the feet.',
-    'A Slug\'s blood is green',
+  List<Question> questionsBank = [
+    Question(q: 'you can lead a cow downstairs but not upstairs.', a: false),
+    Question(
+        q: 'Approximately one quarter of human bone are in the feet.', a: true),
+    Question(q: 'A Slug\'s blood is green', a: true)
   ];
-
-  List<bool> answers = [false, true, true];
 
   int questionsNumber = 0;
 
@@ -56,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  questions[questionsNumber],
+                  questionsBank[questionsNumber].questionsText,
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white, fontSize: 25.0),
                 ),
@@ -68,7 +68,8 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
                 onPressed: () {
-                  bool correctAnswers = answers[questionsNumber];
+                  bool correctAnswers =
+                      questionsBank[questionsNumber].questionAnswer;
 
                   if (correctAnswers == true) {
                     print('jawaban benar');
@@ -97,7 +98,8 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
                 onPressed: () {
-                  bool correctAnswers = answers[questionsNumber];
+                  bool correctAnswers =
+                      questionsBank[questionsNumber].questionAnswer;
 
                   if (correctAnswers == false) {
                     print('jawaban benar');
