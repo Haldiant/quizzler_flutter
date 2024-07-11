@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler_flutter/questions.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'quizbrain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() {
   runApp(const QuizzlerApp());
@@ -34,14 +37,40 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
 
-  List<Question> questionsBank = [
-    Question(q: 'you can lead a cow downstairs but not upstairs.', a: false),
-    Question(
-        q: 'Approximately one quarter of human bone are in the feet.', a: true),
-    Question(q: 'A Slug\'s blood is green', a: true)
-  ];
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswers = quizBrain.getQuestionAnswer(0);
 
-  int questionsNumber = 0;
+    setState(() {
+      if (quizBrain.isFinished()) {
+        Alert(
+          context: context,
+          type: AlertType.warning,
+          title: 'Well Done',
+          desc: 'you have finished taking the quiz',
+          buttons: [
+            DialogButton(
+              onPressed: () => Navigator.pop(context),
+              color: Colors.green,
+              child: const Text('Mulai Lagi'),
+            )
+          ],
+        ).show();
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else if (userPickedAnswer == correctAnswers) {
+        scoreKeeper.add(const Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        scoreKeeper.add(const Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +85,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  questionsBank[questionsNumber].questionsText,
+                  quizBrain.getQuestionText(0),
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white, fontSize: 25.0),
                 ),
@@ -68,17 +97,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
                 onPressed: () {
-                  bool correctAnswers =
-                      questionsBank[questionsNumber].questionAnswer;
-
-                  if (correctAnswers == true) {
-                    print('jawaban benar');
-                  } else {
-                    print('jawaban salah');
-                  }
-                  setState(() {
-                    questionsNumber++;
-                  });
+                  checkAnswer(true);
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -98,18 +117,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(15.0),
               child: TextButton(
                 onPressed: () {
-                  bool correctAnswers =
-                      questionsBank[questionsNumber].questionAnswer;
-
-                  if (correctAnswers == false) {
-                    print('jawaban benar');
-                  } else {
-                    print('jawaban salah');
-                  }
-
-                  setState(() {
-                    questionsNumber++;
-                  });
+                  checkAnswer(false);
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red,
